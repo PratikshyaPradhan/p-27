@@ -1,70 +1,60 @@
 const Engine = Matter.Engine;
-const World= Matter.World;
+const World = Matter.World;
 const Bodies = Matter.Bodies;
+const Body = Matter.Body;
 
-var engine, world;
-var box1, pig1;
-var backgroundImg,platform;
-var Clog;
-var connection;
+var bob1, bob2, bob3, bob4, bob5;
+var roof;
+var rope1,rope2,rope3,rope4,rope5;
 
-const Constraint = Matter.Constraint;
-function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+function setup() {
+	createCanvas(800, 700);
+
+
+	engine = Engine.create();
+	world = engine.world;
+
+	bob1 = new Bob(260, 350);
+	bob2 = new Bob(330, 350);
+	bob3 = new Bob(400, 350);
+	bob4 = new Bob(470, 350);
+	bob5 = new Bob(540, 350);
+
+	roof = new Roof(400, 20, 600, 40);
+
+	rope1 = new Rope(bob1.body, roof.body, -140, 0);
+	rope2 = new Rope(bob2.body, roof.body, -70, 0);
+	rope3 = new Rope(bob3.body, roof.body, 0, 0);
+	rope4 = new Rope(bob4.body, roof.body, 70, 0);
+	rope5 = new Rope(bob5.body, roof.body, 140, 0);
+	Engine.run(engine);  
 }
 
-function setup(){
-    var canvas = createCanvas(1200,400);
-    engine = Engine.create();
-    world = engine.world;
+function draw() {
+  rectMode(CENTER);
+  background("green");
 
+  rope1.display();
+  rope2.display();
+  rope3.display();
+  rope4.display();
+  rope5.display();
 
-    ground = new Ground(600,height,1200,20);
-    platform = new Ground(150, 305, 300, 170);
+  bob1.display();
+  bob2.display();
+  bob3.display();
+  bob4.display();
+  bob5.display();
 
-    box1 = new Box(700,320,70,70);
-    box2 = new Box(920,320,70,70);
-    pig1 = new Pig(810, 350);
-    log1 = new Log(810,260,300, PI/2);
+  roof.display();
 
-    Clog = new Log(200,150,80,PI/2);
+  drawSprites();
 
-    box3 = new Box(700,240,70,70);
-    box4 = new Box(920,240,70,70);
-    pig3 = new Pig(810, 220);
-    
-    log3 =  new Log(810,180,300, PI/2);
-
-    box5 = new Box(810,160,70,70);
-    log4 = new Log(760,120,150, PI/7);
-    log5 = new Log(870,120,150, -PI/7);
-
-    bird = new Bird(100,100);
-
-    connection = new Chain(bird.body,Clog.body);
 }
 
-function draw(){
-    background(backgroundImg);
-    Engine.update(engine);
-    console.log(box2.body.position.x);
-    console.log(box2.body.position.y);
-    console.log(box2.body.angle);
-    box1.display();
-    box2.display();
-    ground.display();
-    pig1.display();
-    log1.display();
-    Clog.display();
-    box3.display();
-    box4.display();
-    pig3.display();
-    log3.display();
-connection.display();
-    box5.display();
-    log4.display();
-    log5.display();
-
-    bird.display();
-    platform.display();
+function mouseDragged(){
+    Matter.Body.setPosition(bob1.body, {x:mouseX, y:mouseY})
 }
+
+
+
